@@ -26,7 +26,8 @@ def get_lat_long(row):
 
     return row
 
-df2 = pd.read_excel(os.getcwd()+"\\..\\data\\UK_Regions.xlsx")
+# df2 = pd.read_excel(os.getcwd()+"\\..\\data\\UK_Regions.xlsx")
+df2 = pd.read_excel(os.getcwd()+"/../data/UK_Regions.xlsx")
 df3 = df2.apply(lambda row: get_lat_long(row), axis=1)
 
 
@@ -43,6 +44,8 @@ figur = px.scatter_mapbox(df3,
                           zoom=10)
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX])
+server = app.server
+
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
@@ -69,4 +72,4 @@ def update_contents(clickData):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=False, port=8070)
+    app.run_server(debug=False)
