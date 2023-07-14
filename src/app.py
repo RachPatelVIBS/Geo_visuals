@@ -5,9 +5,11 @@ import dash
 import plotly.express as px
 from geopy.geocoders import Nominatim
 import os
+
+
 def get_lat_long(row):
     location = row['Region']
-    # print("For Location:", location)
+    print("For Location:", location)
     # calling the Nominatim tool
     loc = Nominatim(user_agent="GetLoc")
     # entering the location name
@@ -15,33 +17,34 @@ def get_lat_long(row):
         getLoc = loc.geocode(location)
         # printing address
         # print(getLoc.address)
-        # print("Latitude = ", getLoc.latitude)
-        # print("Longitude = ", getLoc.longitude)
+        print("Latitude = ", getLoc.latitude)
+        print("Longitude = ", getLoc.longitude)
         row['lat'] = getLoc.latitude
         row['long'] = getLoc.longitude
+
     except:
         row['lat'] = 0
         row['long'] = 0
-        # print("Latitude and Longitude not found")
+        print("Latitude and Longitude not found")
 
     return row
 
+
 # df2 = pd.read_excel(os.getcwd()+"\\..\\data\\UK_Regions.xlsx")
-df2 = pd.read_excel(os.getcwd()+"/../data/UK_Regions.xlsx")
+df2 = pd.read_excel(os.getcwd() + "/../data/UK_Regions.xlsx")
 df3 = df2.apply(lambda row: get_lat_long(row), axis=1)
 
-
-figur = px.scatter_mapbox(df3,
-                          lat='lat',
-                          lon='long',
-                          size='Count',
-                          color='Region',
-                          mapbox_style='carto-positron',
-                          hover_name='lat',
-                          hover_data=['lat'],
-                          color_continuous_scale=px.colors.cyclical.IceFire,
-                          size_max=50,
-                          zoom=10)
+fig = px.scatter_mapbox(df3,
+                        lat='lat',
+                        lon='long',
+                        size='Count',
+                        color='Region',
+                        mapbox_style='carto-positron',
+                        hover_name='lat',
+                        hover_data=['lat'],
+                        color_continuous_scale=px.colors.cyclical.IceFire,
+                        size_max=50,
+                        zoom=10)
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 server = app.server
@@ -49,7 +52,7 @@ server = app.server
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col([
-            dcc.Graph(id='maps', figure=figur)
+            dcc.Graph(id='maps', figure=fig)
         ], width={'size': 8}),
     ]),
     dbc.Row([
@@ -72,4 +75,4 @@ def update_contents(clickData):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=False)
+    app.run(debug=False)
