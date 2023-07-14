@@ -7,3 +7,4 @@ gunicorn
 dash-tools
 openpyxl
 geopy
+dash-bootstrap-components
