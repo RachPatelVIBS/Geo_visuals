@@ -44,7 +44,7 @@ fig = px.scatter_mapbox(df3,
                         hover_data=['lat'],
                         color_continuous_scale=px.colors.cyclical.IceFire,
                         size_max=50,
-                        zoom=10)
+                        zoom=2)
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 server = app.server
@@ -75,4 +75,5 @@ def update_contents(clickData):
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=False,port=8070)
+
