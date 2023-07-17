@@ -35,13 +35,13 @@ df2 = pd.read_excel(os.getcwd() + "/../data/UK_Regions.xlsx")
 df3 = df2.apply(lambda row: get_lat_long(row), axis=1)
 
 fig = px.scatter_mapbox(df3,
-                        lat='lat',
-                        lon='long',
+                        lat='Latitude',
+                        lon='Longitude',
                         size='Count',
                         color='Region',
                         mapbox_style='carto-positron',
-                        hover_name='lat',
-                        hover_data=['lat'],
+                        hover_name='Latitude',
+                        hover_data=['Latitude'],
                         color_continuous_scale=px.colors.cyclical.IceFire,
                         size_max=50,
                         zoom=2)
@@ -67,7 +67,7 @@ app.layout = dbc.Container([
 def update_contents(clickData):
     if clickData:
         fips = clickData['points'][0]['hovertext']
-        dff = df3[df3['lat'] == fips]
+        dff = df3[df3['Latitude'] == fips]
         return html.Div([dash_table.DataTable(id='table',
                                               columns=[{"name": i, "id": i} for i in dff.columns],
                                               data=dff.to_dict(orient='records'))
