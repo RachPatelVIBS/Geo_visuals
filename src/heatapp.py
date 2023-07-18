@@ -18,10 +18,10 @@ def get_heatmap(df2):
 df2 = pd.read_excel(os.getcwd() + "/../data/UK_Regions.xlsx")
 fig = get_heatmap(df2)
 
-app = Dash(__name__)
-server = app.server
+heatapp = Dash(__name__)
+server = heatapp.server
 
-app.layout = html.Div([
+heatapp.layout = html.Div([
     html.H4('HeatMap for UK Regions '),
     html.Br(),
     dcc.Graph(figure=fig),
@@ -29,4 +29,4 @@ app.layout = html.Div([
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    heatapp.run(debug=True)
